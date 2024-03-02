@@ -23,17 +23,19 @@ def generate_pie_chart(languages):
     total = sum(sizes)
     labels = [f'{lang} {size/total:.1%}' for lang, size in languages.items()]
     
-    plt.figure(figsize=(6, 4))  # Adjust the figsize to make the chart smaller
-    wedges, texts, autotexts = plt.pie(sizes, autopct='', startangle=140)
+    explode = [0.1] * len(labels)  # 'Explode' all slices slightly to give a 3D effect
     
-    plt.axis('equal')  # Ensure the pie chart is a circle.
+    plt.figure(figsize=(6, 4))
+    wedges, texts, autotexts = plt.pie(sizes, autopct='', startangle=140, explode=explode, shadow=True)
+    
+    plt.axis('equal')
     
     plt.title('Programming Languages Distribution')
     
     # Display the legend with language names and their corresponding percentages
     plt.legend(wedges, labels, title="Languages", loc="center left", bbox_to_anchor=(1, 0.5))
     
-    plt.tight_layout()  # Adjust layout to make room for the legend
+    plt.tight_layout()
     plt.show()
 
 languages = fetch_languages(GITHUB_USER)
