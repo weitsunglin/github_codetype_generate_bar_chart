@@ -1,0 +1,22 @@
+name: Run Python Script
+
+on:
+  push:
+    branches:
+      - main  # 或者您預設的分支名稱
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'  # 選擇您需要的 Python 版本
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+    - name: Run script
+      run: |
+        python generate_pie_chart.py
