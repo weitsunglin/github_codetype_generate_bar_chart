@@ -20,3 +20,9 @@ jobs:
     - name: Run script
       run: |
         python generate_pie_chart.py
+        
+    - name: Upload generated image
+      uses: actions/upload-artifact@v2
+        with:
+          name: generated-image
+          path: code_exp.png
