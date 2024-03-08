@@ -26,19 +26,3 @@ jobs:
       with:
           name: generated-image
           path: code_exp.png
-
-    - name: Setup Git Configuration
-      run: |
-        git config --global user.email "weitsunglin@igs.com"
-        git config --global user.name "weitsunglin"
-          
-    - name: Set Remote URL with Access Token
-      run: |
-        git remote set-url origin https://x-access-token:${{ secrets.TARGET_REPO_TOKEN }}@github.com/weitsunglin/weitsunglin.git
-        git push origin HEAD:main --force
-
-    - name: Push Changes
-      run: |
-        git push target HEAD:main --force
-
-        
