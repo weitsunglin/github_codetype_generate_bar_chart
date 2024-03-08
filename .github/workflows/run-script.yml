@@ -31,9 +31,11 @@ jobs:
       run: |
         git config --global user.email "weitsunglin@igs.com"
         git config --global user.name "weitsunglin"
-      
-    - name: Add Remote Repository
-      run: git remote add target https://x-access-token:${{ secrets.TARGET_REPO_TOKEN }}@github.com/weitsunglin/weitsunglin.git
+          
+    - name: Set Remote URL with Access Token
+      run: |
+        git remote set-url origin https://x-access-token:${{ secrets.TARGET_REPO_TOKEN }}@github.com/weitsunglin/weitsunglin.git
+        git push origin HEAD:main --force
 
     - name: Push Changes
       run: |
