@@ -23,6 +23,6 @@ jobs:
         
     - name: Upload generated image
       uses: actions/upload-artifact@v2
-        with:
+      with:
           name: generated-image
           path: code_exp.png
