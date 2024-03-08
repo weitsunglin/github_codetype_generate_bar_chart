@@ -33,7 +33,7 @@ jobs:
         git config --global user.name "weitsunglin"
       
     - name: Add Remote Repository
-      run: git remote add target https://x-access-token:${{ secrets.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 }}@github.com/weitsunglin/weitsunglin.git
+      run: git remote add target https://x-access-token:${{ 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 }}@github.com/weitsunglin/weitsunglin.git
 
     - name: Push Changes
       run: |
