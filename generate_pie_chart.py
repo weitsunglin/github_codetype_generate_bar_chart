@@ -36,7 +36,7 @@ def generate_pie_chart(languages):
     plt.legend(wedges, labels, title="Languages", loc="center left", bbox_to_anchor=(1, 0.5))
     
     plt.tight_layout()
-   plt.savefig('code_exp.png')  # Save the figure as a file
+    plt.savefig('code_exp.png')  # Save the figure as a file
 
 languages = fetch_languages(GITHUB_USER)
 generate_pie_chart(languages)
