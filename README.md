@@ -5,4 +5,4 @@
 4. execute  github_codetype_generate_bar_chart.py
 5. output code type statistic image 
 
-[code_exp.png](https://github.com/weitsunglin/statistic_github_codetype/edit/main/code_exp.png)
+[code_exp](https://github.com/weitsunglin/statistic_github_codetype/blob/main/code_exp.png)
