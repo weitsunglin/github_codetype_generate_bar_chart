@@ -12,10 +12,12 @@ def fetch_languages(user):
             lang_url = repo['languages_url']
             lang_data = requests.get(lang_url).json()
             for lang, lines in lang_data.items():
-                if lang in languages:
-                    languages[lang] += lines
-                else:
-                    languages[lang] = lines
+                # 排除指定的语言
+                if lang not in ['HLSL', 'ShaderLab']:
+                    if lang in languages:
+                        languages[lang] += lines
+                    else:
+                        languages[lang] = lines
     return languages
 
 def generate_pie_chart(languages):
