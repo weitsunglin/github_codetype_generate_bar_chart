@@ -20,30 +20,35 @@ def fetch_languages(user):
     return languages
 
 def generate_pie_chart(languages):
-    # 移除貢獻 0 的语言
+    # 移除贡献为0的语言
     filtered_languages = {lang: lines for lang, lines in languages.items() if lines > 0}
     
-    sizes = filtered_languages.values()
-    total = sum(sizes)
-    # 计算每种语言的贡献比例，并确保该比例大于0.0%
-    filtered_languages = {lang: lines for lang, lines in filtered_languages.items() if (lines / total) > 0.0}
+    # 确保总贡献大于0以避免除以0的错误
+    total = sum(filtered_languages.values())
+    if total > 0:
+        # 过滤出贡献比例确实大于0的语言
+        filtered_languages = {lang: lines for lang, lines in filtered_languages.items() if (lines / total) > 0.0001}  # 设定一个小的阈值以排除贡献非常小的语言
 
-    labels = [f'{lang} {size/total:.1%}' for lang, size in filtered_languages.items()]
-    
-    explode = [0.1] * len(labels)  # 'Explode' all slices slightly to give a 3D effect
-    
-    plt.figure(figsize=(6, 4))
-    wedges, texts, autotexts = plt.pie(sizes, autopct='', startangle=140, explode=explode, shadow=True)
-    
-    plt.axis('equal')
-    
-    plt.title('Programming Languages Distribution')
-    
-    # Display the legend with language names and their corresponding percentages
-    plt.legend(wedges, labels, title="Languages", loc="center left", bbox_to_anchor=(1, 0.5))
-    
-    plt.tight_layout()
-    plt.savefig('code_exp.png')  # Save the figure as a file
+        sizes = filtered_languages.values()
+        labels = [f'{lang} {size/total:.1%}' for lang, size in filtered_languages.items()]
+        
+        explode = [0.1] * len(labels)  # 'Explode' all slices slightly to give a 3D effect
+        
+        plt.figure(figsize=(6, 4))
+        wedges, texts, autotexts = plt.pie(sizes, autopct='', startangle=140, explode=explode, shadow=True)
+        
+        plt.axis('equal')
+        
+        plt.title('Programming Languages Distribution')
+        
+        # Display the legend with language names and their corresponding percentages
+        plt.legend(wedges, labels, title="Languages", loc="center left", bbox_to_anchor=(1, 0.5))
+        
+        plt.tight_layout()
+        plt.savefig('code_exp.png')  # Save the figure as a file
+    else:
+        print("No significant language contributions found.")
+
 
 
 languages = fetch_languages(GITHUB_USER)
