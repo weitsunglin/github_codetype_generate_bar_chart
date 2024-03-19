@@ -38,7 +38,6 @@ jobs:
         cp code_exp.png weitsunglin/code_exp.png
         cd weitsunglin
         git add code_exp.png
-        git commit -m "Update code exp image"
         if [[ $(git status --porcelain) ]]; then
           git commit -m "Update code exp image" || true
           git push https://weitsunglin:${ACCESS_TOKEN}@github.com/weitsunglin/weitsunglin.git main || true
