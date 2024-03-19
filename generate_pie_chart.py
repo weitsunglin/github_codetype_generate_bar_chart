@@ -1,7 +1,6 @@
 import requests
 import matplotlib.pyplot as plt
 
-# 替换为您的 GitHub 用户名
 GITHUB_USER = 'weitsunglin'
 
 def fetch_languages(user):
@@ -21,9 +20,12 @@ def fetch_languages(user):
     return languages
 
 def generate_pie_chart(languages):
-    sizes = languages.values()
+    # 移除貢獻 0 的语言
+    filtered_languages = {lang: lines for lang, lines in languages.items() if lines > 0}
+    
+    sizes = filtered_languages.values()
     total = sum(sizes)
-    labels = [f'{lang} {size/total:.1%}' for lang, size in languages.items()]
+    labels = [f'{lang} {size/total:.1%}' for lang, size in filtered_languages.items()]
     
     explode = [0.1] * len(labels)  # 'Explode' all slices slightly to give a 3D effect
     
