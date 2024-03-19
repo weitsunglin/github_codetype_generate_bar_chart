@@ -27,3 +27,17 @@ jobs:
       with:
           name: generated-image
           path: code_exp.png
+
+    - name: Commit and push to another repository
+    env:
+      ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      run: |
+        git config --global user.email "weitsunglin@igs.com"
+        git config --global user.name "weitsunglin"
+        git clone https://github.com/weitsunglin/weitsunglin.git
+        cp code_exp.png weitsunglin/code_exp.png
+        cd weitsunglin
+        git add code_exp.png
+        git commit -m "Update code exp image"
+        git push https://weitsunglin:${ACCESS_TOKEN}@github.com/weitsunglin/weitsunglin.git main
+
