@@ -20,36 +20,29 @@ def fetch_languages(user):
     return languages
 
 def generate_pie_chart(languages):
-    # 移除贡献为0的语言
     filtered_languages = {lang: lines for lang, lines in languages.items() if lines > 0}
-    
-    # 确保总贡献大于0以避免除以0的错误
     total = sum(filtered_languages.values())
-    if total > 0:
-        # 过滤出贡献比例确实大于0的语言
-        filtered_languages = {lang: lines for lang, lines in filtered_languages.items() if (lines / total) > 0.0001}  # 设定一个小的阈值以排除贡献非常小的语言
+    
+    # 移除在总贡献中占比非常小的语言
+    filtered_languages = {lang: lines for lang, lines in filtered_languages.items() if (lines / total) >= 0.01} # 调整阈值以排除贡献极小的语言
 
-        sizes = filtered_languages.values()
-        labels = [f'{lang} {size/total:.1%}' for lang, size in filtered_languages.items()]
+    if total > 0:
+        sizes = [size for size in filtered_languages.values() if size/total >= 0.01]  # 再次过滤确保无0%贡献
+        labels = [f'{lang} {size/total:.1%}' for lang, size in filtered_languages.items() if size/total >= 0.01]
         
-        explode = [0.1] * len(labels)  # 'Explode' all slices slightly to give a 3D effect
+        explode = [0.1] * len(labels)
         
         plt.figure(figsize=(6, 4))
-        wedges, texts, autotexts = plt.pie(sizes, autopct='', startangle=140, explode=explode, shadow=True)
+        wedges, _, _ = plt.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%', startangle=140, shadow=True)
         
         plt.axis('equal')
-        
         plt.title('Programming Languages Distribution')
         
-        # Display the legend with language names and their corresponding percentages
-        plt.legend(wedges, labels, title="Languages", loc="center left", bbox_to_anchor=(1, 0.5))
-        
+        plt.legend(wedges, labels, title="Languages", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1))
         plt.tight_layout()
-        plt.savefig('code_exp.png')  # Save the figure as a file
+        plt.savefig('code_exp.png')
     else:
         print("No significant language contributions found.")
-
-
 
 languages = fetch_languages(GITHUB_USER)
 generate_pie_chart(languages)
