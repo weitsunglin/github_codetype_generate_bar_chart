@@ -29,8 +29,8 @@ jobs:
           path: code_exp.png
 
     - name: Commit and push to another repository
-    env:
-      ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      env:
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       run: |
         git config --global user.email "weitsunglin@igs.com"
         git config --global user.name "weitsunglin"
