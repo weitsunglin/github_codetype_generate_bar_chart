@@ -27,7 +27,7 @@ def generate_pie_chart(languages):
     
     explode = [0.1] * len(labels)  # 'Explode' all slices slightly to give a 3D effect
     
-    plt.figure(figsize=(6, 4))
+    plt.figure(figsize=(5, 3))
     wedges, texts, autotexts = plt.pie(sizes, autopct='', startangle=140, explode=explode, shadow=True)
     
     plt.axis('equal')
