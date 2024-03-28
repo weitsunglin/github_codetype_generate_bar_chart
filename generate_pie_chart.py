@@ -8,22 +8,22 @@ def fetch_languages(user):
     languages = {}
     repos = requests.get(f'https://api.github.com/users/{user}/repos').json()
     for repo in repos:
-        if repo['fork'] is False and repo['name'] != 'ios_line_sdk':  # Ignore forks
+        if repo['fork'] is False and repo['name'] != 'ios_line_sdk':  # Ignore forks and specific repo
             lang_url = repo['languages_url']
             lang_data = requests.get(lang_url).json()
             for lang, lines in lang_data.items():
-                # 排除指定的语言
+                # Exclude specific languages
                 if lang not in ['HLSL', 'ShaderLab']:
-                    if lang in languages:
-                        languages[lang] += lines
-                    else:
-                        languages[lang] = lines
+                    languages[lang] = languages.get(lang, 0) + lines
     return languages
 
 def generate_pie_chart(languages):
-    sizes = languages.values()
+    # Sort the languages by lines of code in descending order
+    sorted_languages = {lang: lines for lang, lines in sorted(languages.items(), key=lambda item: item[1], reverse=True)}
+    
+    sizes = sorted_languages.values()
     total = sum(sizes)
-    labels = [f'{lang} {size/total:.1%}' for lang, size in languages.items()]
+    labels = [f'{lang} {size/total:.1%}' for lang, size in sorted_languages.items()]
     
     explode = [0.1] * len(labels)  # 'Explode' all slices slightly to give a 3D effect
     
@@ -34,11 +34,10 @@ def generate_pie_chart(languages):
     
     plt.title('Programming Languages Distribution')
     
-    # Display the legend with language names and their corresponding percentages
     plt.legend(wedges, labels, title="Languages", loc="center left", bbox_to_anchor=(1, 0.5))
     
     plt.tight_layout()
-    plt.savefig('code_exp.png')  # Save the figure as a file
+    plt.savefig('code_exp.png')
 
 languages = fetch_languages(GITHUB_USER)
 generate_pie_chart(languages)
