@@ -36,12 +36,13 @@ jobs:
       run: |
         git config --global user.email "weitsunglin@igs.com"
         git config --global user.name "weitsunglin"
+        git clone https://github.com/weitsunglin/weitsunglin.git
         cp code_exp.png weitsunglin/code_exp.png
         cd weitsunglin
         git add code_exp.png
         if [[ $(git status --porcelain) ]]; then
-           echo "No changes to commit."
-        else
           git commit -m "Update from GitHub Actions"
-          git push origin main
+          git push https://weitsunglin:${ACCESS_TOKEN}@github.com/weitsunglin/weitsunglin.git main || true
+        else
+          echo "No changes to commit."
         fi
