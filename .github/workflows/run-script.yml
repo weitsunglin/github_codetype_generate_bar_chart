@@ -30,18 +30,24 @@ jobs:
           name: generated-image
           path: code_exp.png
 
-    - name: Commit and push to another repository
-      env:
-        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.ACCESS_TOKEN }}
+      
+    - name: Configure git
       run: |
-        git config --global user.email "weitsunglin@igs.com"
-        git config --global user.name "weitsunglin"
-        cp code_exp.png weitsunglin/code_exp.png
-        cd weitsunglin
-        git add code_exp.png
-        if [[ $(git status --porcelain) ]]; then
-          git commit -m "Update code exp image" || true
-          git push
-        else
+        git config user.email "weitsunglin@igs.com"
+        git config user.name "weitsunglin"
+
+    # 这里可以添加您的其他步骤，比如执行脚本修改仓库中的文件
+    
+    - name: Commit and push changes
+      run: |
+        git add .
+        if git diff --staged --quiet; then
           echo "No changes to commit."
+        else
+          git commit -m "Update from GitHub Actions"
+          git push origin main
         fi
