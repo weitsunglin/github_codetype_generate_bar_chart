@@ -8,7 +8,8 @@ def fetch_languages(user):
     languages = {}
     repos = requests.get(f'https://api.github.com/users/{user}/repos').json()
     for repo in repos:
-        if repo['fork'] is False and repo['name'] != 'ios_line_sdk':  # Ignore forks and specific repo
+        if repo['fork'] is False and repo['name'] != 'ios_line_sdk'
+            and repo['name'] != 'llvm-mingw-20240518-msvcrt-x86_64':  # Ignore forks and specific repo
             lang_url = repo['languages_url']
             lang_data = requests.get(lang_url).json()
             for lang, lines in lang_data.items():
