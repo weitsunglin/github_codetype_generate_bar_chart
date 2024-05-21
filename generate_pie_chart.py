@@ -10,7 +10,6 @@ def fetch_languages(user):
     print("repos",repos)
     for repo in repos:
         if (repo['fork'] is False 
-                and repo['visibility'] == 'public'
                 and repo['name'] != 'ios_line_sdk' 
                 and repo['name'] != 'llvm-mingw-20240518-msvcrt-x86_64'):  # Ignore forks and specific repo
             lang_url = repo['languages_url']
