@@ -7,7 +7,7 @@ GITHUB_USER = 'weitsunglin'
 def fetch_languages(user):
     languages = {}
     repos = requests.get(f'https://api.github.com/users/{user}/repos').json()
-    print("repos",repos)
+    print("repos", repos)
     for repo in repos:
         if (repo['fork'] is False 
                 and repo['name'] != 'ios_line_sdk' 
@@ -18,7 +18,12 @@ def fetch_languages(user):
                 # Exclude specific languages
                 if lang not in ['HLSL', 'ShaderLab']:
                     languages[lang] = languages.get(lang, 0) + lines
-    return languages
+    
+    # Sort languages by lines of code in descending order and get the top 5
+    sorted_languages = sorted(languages.items(), key=lambda x: x[1], reverse=True)[:5]
+    top_languages = {lang: lines for lang, lines in sorted_languages}
+    
+    return top_languages
 
 def generate_pie_chart(languages):
     # Sort the languages by lines of code in descending order
