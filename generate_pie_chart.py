@@ -7,6 +7,7 @@ GITHUB_USER = 'weitsunglin'
 def fetch_languages(user):
     languages = {}
     repos = requests.get(f'https://api.github.com/users/{user}/repos').json()
+    print("repos",repos)
     for repo in repos:
         if (repo['fork'] is False 
                 and repo['name'] != 'ios_line_sdk' 
