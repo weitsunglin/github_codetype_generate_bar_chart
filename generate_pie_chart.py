@@ -25,27 +25,28 @@ def fetch_languages(user):
     
     return top_languages
 
-def generate_pie_chart(languages):
-    # Sort the languages by lines of code in descending order
+def generate_bar_chart(languages):
+    # Sort languages by lines of code in descending order
     sorted_languages = {lang: lines for lang, lines in sorted(languages.items(), key=lambda item: item[1], reverse=True)}
     
+    # Prepare data for bar chart
+    labels = sorted_languages.keys()
     sizes = sorted_languages.values()
-    total = sum(sizes)
-    labels = [f'{lang} {size/total:.1%}' for lang, size in sorted_languages.items()]
     
-    explode = [0.1] * len(labels)  # 'Explode' all slices slightly to give a 3D effect
+    # Plot bar chart
+    plt.figure(figsize=(8, 5))  # Adjust figure size as needed
+    plt.bar(labels, sizes, color='skyblue')
     
-    plt.figure(figsize=(5, 3))
-    wedges, texts, autotexts = plt.pie(sizes, autopct='', startangle=140, explode=explode, shadow=True)
+    # Adding title and labels
+    plt.title('Top 5 Programming Languages by Lines of Code')
+    plt.xlabel('Programming Languages')
+    plt.ylabel('Lines of Code')
     
-    plt.axis('equal')
-    
-    plt.title('Programming Languages Distribution')
-    
-    plt.legend(wedges, labels, title="Languages", loc="center left", bbox_to_anchor=(1, 0.5))
-    
+    # Save the chart as an image
     plt.tight_layout()
-    plt.savefig('code_exp.png')
+    plt.savefig('code_exp_bar.png')
+    plt.show()
 
+# Fetch languages and generate bar chart
 languages = fetch_languages(GITHUB_USER)
-generate_pie_chart(languages)
+generate_bar_chart(languages)
