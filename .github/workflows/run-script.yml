@@ -28,7 +28,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
           name: generated-image
-          path: code_exp.png
+          path: code_exp_bar.png
 
     - name: Commit and push to another repository
       env:
@@ -39,7 +39,7 @@ jobs:
         git clone https://github.com/weitsunglin/weitsunglin.git
         cp code_exp.png weitsunglin/code_exp_bar.png
         cd weitsunglin
-        git add code_exp.png
+        git add code_exp_bar.png
         if [[ $(git status --porcelain) ]]; then
           git commit -m "Update from GitHub Actions"
           git push https://weitsunglin:${ACCESS_TOKEN}@github.com/weitsunglin/weitsunglin.git main
