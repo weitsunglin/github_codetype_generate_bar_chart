@@ -34,7 +34,7 @@ def generate_bar_chart(languages):
     sizes = sorted_languages.values()
     
     # Plot bar chart
-   plt.figure(figsize=(5, 3))  # 調整圖像大小
+    plt.figure(figsize=(5, 3))
 
     plt.bar(labels, sizes, color='skyblue')
     
