@@ -34,7 +34,8 @@ def generate_bar_chart(languages):
     sizes = sorted_languages.values()
     
     # Plot bar chart
-    plt.figure(figsize=(8, 5))  # Adjust figure size as needed
+   plt.figure(figsize=(5, 3))  # 調整圖像大小
+
     plt.bar(labels, sizes, color='skyblue')
     
     # Adding title and labels
