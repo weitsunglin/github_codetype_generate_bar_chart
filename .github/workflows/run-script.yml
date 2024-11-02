@@ -37,7 +37,7 @@ jobs:
         git config --global user.email "weitsunglin@igs.com"
         git config --global user.name "weitsunglin"
         git clone https://github.com/weitsunglin/weitsunglin.git
-        cp code_exp.png weitsunglin/code_exp_bar.png
+        cp code_exp_bar.png weitsunglin/code_exp_bar.png
         cd weitsunglin
         git add code_exp_bar.png
         if [[ $(git status --porcelain) ]]; then
