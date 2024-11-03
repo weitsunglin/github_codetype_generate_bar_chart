@@ -1,53 +1,53 @@
 import requests
 import matplotlib.pyplot as plt
 
-# 替换为您的 GitHub 用户名
+# Replace with your GitHub username
 GITHUB_USER = 'weitsunglin'
 
-def fetch_languages(user):
-    languages = {}
+def fetch_topics(user):
+    topics = {}
     repos = requests.get(f'https://api.github.com/users/{user}/repos').json()
-    print("repos", repos)
+    
     for repo in repos:
         if (repo['fork'] is False 
                 and repo['name'] != 'ios_line_sdk' 
-                and repo['name'] != 'llvm-mingw-20240518-msvcrt-x86_64'):  # Ignore forks and specific repo
-            lang_url = repo['languages_url']
-            lang_data = requests.get(lang_url).json()
-            for lang, lines in lang_data.items():
-                # Exclude specific languages
-                if lang not in ['HLSL', 'ShaderLab']:
-                    languages[lang] = languages.get(lang, 0) + lines
+                and repo['name'] != 'llvm-mingw-20240518-msvcrt-x86_64'):  # Ignore forks and specific repos
+            repo_name = repo['name']
+            # Fetch topics for each repository
+            headers = {"Accept": "application/vnd.github.mercy-preview+json"}
+            topic_url = f"https://api.github.com/repos/{user}/{repo_name}/topics"
+            topic_data = requests.get(topic_url, headers=headers).json()
+            for topic in topic_data.get("names", []):
+                topics[topic] = topics.get(topic, 0) + 1
     
-    # Sort languages by lines of code in descending order and get the top 5
-    sorted_languages = sorted(languages.items(), key=lambda x: x[1], reverse=True)[:5]
-    top_languages = {lang: lines for lang, lines in sorted_languages}
+    # Sort topics by frequency and get the top 5
+    sorted_topics = sorted(topics.items(), key=lambda x: x[1], reverse=True)[:5]
+    top_topics = {topic: count for topic, count in sorted_topics}
     
-    return top_languages
+    return top_topics
 
-def generate_bar_chart(languages):
-    # Sort languages by lines of code in descending order
-    sorted_languages = {lang: lines for lang, lines in sorted(languages.items(), key=lambda item: item[1], reverse=True)}
+def generate_bar_chart(topics):
+    # Sort topics by frequency in descending order
+    sorted_topics = {topic: count for topic, count in sorted(topics.items(), key=lambda item: item[1], reverse=True)}
     
     # Prepare data for bar chart
-    labels = sorted_languages.keys()
-    sizes = sorted_languages.values()
+    labels = sorted_topics.keys()
+    sizes = sorted_topics.values()
     
     # Plot bar chart
     plt.figure(figsize=(5, 3))
-
     plt.bar(labels, sizes, color='skyblue')
     
     # Adding title and labels
-    plt.title('Top 5 Programming Languages by Lines of Code')
-    plt.xlabel('Programming Languages')
-    plt.ylabel('Lines of Code')
+    plt.title('Top 5 Repository Topics')
+    plt.xlabel('Topics')
+    plt.ylabel('Frequency')
     
     # Save the chart as an image
     plt.tight_layout()
-    plt.savefig('code_exp_bar.png')
+    plt.savefig('topics_bar.png')
     plt.show()
 
-# Fetch languages and generate bar chart
-languages = fetch_languages(GITHUB_USER)
-generate_bar_chart(languages)
+# Fetch topics and generate bar chart
+topics = fetch_topics(GITHUB_USER)
+generate_bar_chart(topics)
