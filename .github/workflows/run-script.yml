@@ -28,7 +28,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
           name: generated-image
-          path: code_exp_bar.png
+          path: topics_bar.png
 
     - name: Commit and push to another repository
       env:
@@ -37,9 +37,9 @@ jobs:
         git config --global user.email "weitsunglin@igs.com"
         git config --global user.name "weitsunglin"
         git clone https://github.com/weitsunglin/weitsunglin.git
-        cp code_exp_bar.png weitsunglin/code_exp_bar.png
+        cp topics_bar.png weitsunglin/topics_bar.png
         cd weitsunglin
-        git add code_exp_bar.png
+        git add topics_bar.png
         if [[ $(git status --porcelain) ]]; then
           git commit -m "Update from GitHub Actions"
           git push https://weitsunglin:${ACCESS_TOKEN}@github.com/weitsunglin/weitsunglin.git main
